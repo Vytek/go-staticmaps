@@ -152,6 +152,18 @@ func NewTileProviderArcgisWorldImagery() *TileProvider {
 	return t
 }
 
+// New https://maptiles.p.rapidapi.com/en/map/v1/{z}/{x}/{y}.png?rapidapi-key=YOUR-X-RapidAPI-KEY
+func NewTileProviderMapTilesAPI(apikey string) *TileProvider {
+	t := new(TileProvider)
+	t.Name = "maptiles"
+	t.Attribution = "Map tiles © MapTiles API | Map data © OpenStreetMap contributors."
+	t.TileSize = 256
+	t.APIKey = apikey
+	t.URLPattern = "https://maptiles.p.rapidapi.com/en/map/v1/%[2]d/%[3]d/%[4]d.png?rapidapi-key=%[5]s"
+	t.Shards = []string{}
+	return t
+}
+
 // NewTileNone creates a TileProvider struct that does not provide any tiles
 func NewTileProviderNone() *TileProvider {
 	t := new(TileProvider)
@@ -180,6 +192,7 @@ func GetTileProviders(thunderforestApiKey string) map[string]*TileProvider {
 		NewTileProviderCartoDark(),
 		NewTileProviderArcgisWorldImagery(),
 		NewTileProviderWikimedia(),
+		NewTileProviderMapTilesAPI(thunderforestApiKey),
 		NewTileProviderNone(),
 	}
 
